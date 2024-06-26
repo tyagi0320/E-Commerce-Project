@@ -1,21 +1,25 @@
-import React, { Fragment,useContext, useState } from "react";
+import React, { Fragment, useContext, useState } from "react";
 import myContext from "../../context/data/myContext";
 import { MdDarkMode } from "react-icons/md";
 import { FiSun } from "react-icons/fi";
 import { Link } from "react-router-dom";
-import { Dialog, Transition } from '@headlessui/react'
-import { RxCross2 } from 'react-icons/rx'
+import { Dialog, Transition } from "@headlessui/react";
+import { RxCross2 } from "react-icons/rx";
 
 function Navbar() {
-
-  const [open, setOpen] = useState(false)
-
+  const [open, setOpen] = useState(false);
 
   const context = useContext(myContext);
   const { mode, toggleMode } = context;
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  const logout = () =>{
+    localStorage.clear('user');
+    window.location.href = '/login'
+  }
 
   return (
-    <div className="bg-white sticky top-0 z-50"> 
+    <div className="bg-white sticky top-0 z-50">
       <Transition.Root show={open} as={Fragment}>
         <Dialog as="div" className="relative z-40 lg:hidden" onClose={setOpen}>
           <Transition.Child
@@ -40,7 +44,13 @@ function Navbar() {
               leaveFrom="translate-x-0"
               leaveTo="-translate-x-full"
             >
-              <Dialog.Panel className="relative flex w-full max-w-xs flex-col overflow-y-auto bg-white pb-12 shadow-xl" style={{ backgroundColor: mode === 'dark' ? 'rgb(40, 44, 52)' : '', color: mode === 'dark' ? 'white' : '', }}>
+              <Dialog.Panel
+                className="relative flex w-full max-w-xs flex-col overflow-y-auto bg-white pb-12 shadow-xl"
+                style={{
+                  backgroundColor: mode === "dark" ? "rgb(40, 44, 52)" : "",
+                  color: mode === "dark" ? "white" : "",
+                }}
+              >
                 <div className="flex px-4 pb-2 pt-28">
                   <button
                     type="button"
@@ -52,33 +62,52 @@ function Navbar() {
                   </button>
                 </div>
                 <div className="space-y-6 border-t border-gray-200 px-4 py-6">
-                  
-                  <Link to={'/allproducts'} className="text-sm font-medium text-gray-900 " style={{ color: mode === 'dark' ? 'white' : '', }}>
+                  <Link
+                    to={"/allproducts"}
+                    className="text-sm font-medium text-gray-900 "
+                    style={{ color: mode === "dark" ? "white" : "" }}
+                  >
                     All Products
                   </Link>
                   <div className="flow-root">
-                    <Link to={'/order'} style={{ color: mode === 'dark' ? 'white' : '', }} className="-m-2 block p-2 font-medium text-gray-900">
+                    <Link
+                      to={"/order"}
+                      style={{ color: mode === "dark" ? "white" : "" }}
+                      className="-m-2 block p-2 font-medium text-gray-900"
+                    >
                       Order
                     </Link>
                   </div>
 
                   <div className="flow-root">
-                    <Link to={'/dashboard'} className="-m-2 block p-2 font-medium text-gray-900" style={{ color: mode === 'dark' ? 'white' : '', }}>
+                    <Link
+                      to={"/dashboard"}
+                      className="-m-2 block p-2 font-medium text-gray-900"
+                      style={{ color: mode === "dark" ? "white" : "" }}
+                    >
                       admin
                     </Link>
                   </div>
 
                   <div className="flow-root">
-                    <a className="-m-2 block p-2 font-medium text-gray-900 cursor-pointer" style={{ color: mode === 'dark' ? 'white' : '', }}>
+                    <a
+                      className="-m-2 block p-2 font-medium text-gray-900 cursor-pointer"
+                      style={{ color: mode === "dark" ? "white" : "" }}
+                    >
                       Logout
                     </a>
                   </div>
                   <div className="flow-root">
-                    <Link to={'/'} className="-m-2 block p-2 font-medium text-gray-900 cursor-pointer">
+                    <Link
+                      to={"/"}
+                      className="-m-2 block p-2 font-medium text-gray-900 cursor-pointer"
+                    >
                       <img
                         className="inline-block w-10 h-10 rounded-full"
                         src="https://overreacted.io/static/profile-pic-c715447ce38098828758e525a1128b87.jpg"
-                        alt="Dan_Abromov" />                                        </Link>
+                        alt="Dan_Abromov"
+                      />{" "}
+                    </Link>
                   </div>
                 </div>
 
@@ -89,7 +118,12 @@ function Navbar() {
                       alt=""
                       className="block h-auto w-5 flex-shrink-0"
                     />
-                    <span className="ml-3 block text-base font-medium text-gray-900" style={{ color: mode === 'dark' ? 'white' : '', }}>INDIA</span>
+                    <span
+                      className="ml-3 block text-base font-medium text-gray-900"
+                      style={{ color: mode === "dark" ? "white" : "" }}
+                    >
+                      INDIA
+                    </span>
                     <span className="sr-only">, change currency</span>
                   </a>
                 </div>
@@ -98,7 +132,7 @@ function Navbar() {
           </div>
         </Dialog>
       </Transition.Root>
-    {/*Desktop*/}
+      {/*Desktop*/}
       <header className="relative bg-white">
         <p
           className="flex h-10 items-center justify-center bg-pink-600 px-4 text-sm font-medium text-white sm:px-6 lg:px-8"
@@ -176,20 +210,22 @@ function Navbar() {
                   >
                     Order
                   </Link>
-                  <Link
+
+                  {user?.user?.email === 'tharshit03@gmail.com' ? <Link
                     to={"/dashboard"}
                     className="text-sm font-medium text-gray-700 "
-                    style={{ color: mode === "dark" ? "white" : "" }}
-                  >
+                    style={{ color: mode === "dark" ? "white" : "", }}>
+                  
                     Admin
-                  </Link>
-
-                  <a
+                  </Link> :null }
+                  
+                  {user ? <a onClick={logout}
                     className="text-sm font-medium text-gray-700 cursor-pointer  "
                     style={{ color: mode === "dark" ? "white" : "" }}
                   >
                     Logout
-                  </a>
+                  </a> : ""}
+                  
                 </div>
 
                 <div className="hidden lg:ml-8 lg:flex">

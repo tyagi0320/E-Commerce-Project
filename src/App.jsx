@@ -22,16 +22,32 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/order" element={<Order />} />
+          <Route path="/order" element={
+            <ProtectedRoute>
+              <Order/>
+            </ProtectedRoute>
+          } />
           <Route path="/cart" element={<Cart />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard" element={
+            <ProtectedRouteForAdmin>
+              <Dashboard/>
+            </ProtectedRouteForAdmin>
+          } />
           <Route path="login" element={<Login/>}/>
           <Route path="signup" element={<Signup/>}/>
           <Route path="/productinfo/:id" element={<ProductInfo />} />
           <Route path="/cart" element={<Cart/>}/>
           <Route path="/*" element={<NoPage />} />
-          <Route path="addproduct" element={<AddProduct/>}/>
-          <Route path="updateproduct" element={<UpdateProduct/>}/>
+          <Route path="addproduct" element={
+            <ProtectedRouteForAdmin>
+              <AddProduct/>
+            </ProtectedRouteForAdmin>
+          }/>
+          <Route path="updateproduct" element={
+            <ProtectedRouteForAdmin>
+              <UpdateProduct/>
+            </ProtectedRouteForAdmin>
+          }/>
 
         </Routes>
         <ToastContainer/>
@@ -41,3 +57,27 @@ function App() {
 }
 
 export default App;
+
+//user
+
+export const ProtectedRoute = ({children}) =>{
+  const user = localStorage.getItem('user')
+  if(user){
+    return children
+  }else{
+    return <Navigate to = {'/login'}/>
+  }
+}
+
+//admin
+
+export const ProtectedRouteForAdmin= ({children}) =>{
+  const admin = JSON.parse(localStorage.getItem('user'))
+
+  if(admin.userr.email === 'tharshit03@gmail.com'){
+    return children
+  }
+  else{
+    return <Navigate to={'/login'}/>
+  }
+}
