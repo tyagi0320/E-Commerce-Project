@@ -20,6 +20,8 @@ function Navbar() {
 
   return (
     <div className="bg-white sticky top-0 z-50">
+          {/*Mobile */}
+
       <Transition.Root show={open} as={Fragment}>
         <Dialog as="div" className="relative z-40 lg:hidden" onClose={setOpen}>
           <Transition.Child
@@ -69,7 +71,8 @@ function Navbar() {
                   >
                     All Products
                   </Link>
-                  <div className="flow-root">
+                 
+                 { user ?  <div className="flow-root">
                     <Link
                       to={"/order"}
                       style={{ color: mode === "dark" ? "white" : "" }}
@@ -77,9 +80,9 @@ function Navbar() {
                     >
                       Order
                     </Link>
-                  </div>
+                  </div> : ""}
 
-                  <div className="flow-root">
+                 {user ?.user?.email === "tharshit03@gmail.com" ?  <div className="flow-root">
                     <Link
                       to={"/dashboard"}
                       className="-m-2 block p-2 font-medium text-gray-900"
@@ -87,16 +90,16 @@ function Navbar() {
                     >
                       admin
                     </Link>
-                  </div>
+                  </div> : ""}
 
-                  <div className="flow-root">
-                    <a
+                  {user ? <div className="flow-root">
+                    <a onClick={logout}
                       className="-m-2 block p-2 font-medium text-gray-900 cursor-pointer"
                       style={{ color: mode === "dark" ? "white" : "" }}
                     >
                       Logout
                     </a>
-                  </div>
+                  </div> : ""}
                   <div className="flow-root">
                     <Link
                       to={"/"}
@@ -203,13 +206,13 @@ function Navbar() {
                   >
                     All Products
                   </Link>
-                  <Link
+                  {user ? <Link
                     to={"/order"}
                     className="text-sm font-medium text-gray-700 "
                     style={{ color: mode === "dark" ? "white" : "" }}
                   >
                     Order
-                  </Link>
+                  </Link> : ""}
 
                   {user?.user?.email === 'tharshit03@gmail.com' ? <Link
                     to={"/dashboard"}
