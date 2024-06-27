@@ -5,6 +5,7 @@ import { FiSun } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { Dialog, Transition } from "@headlessui/react";
 import { RxCross2 } from "react-icons/rx";
+import { useSelector } from "react-redux";
 
 function Navbar() {
   const [open, setOpen] = useState(false);
@@ -17,6 +18,8 @@ function Navbar() {
     localStorage.clear('user');
     window.location.href = '/login'
   }
+
+  const cartItems = useSelector((state)=> state.cart)
 
   return (
     <div className="bg-white sticky top-0 z-50">
@@ -250,7 +253,7 @@ function Navbar() {
                   <a href="#" className="flex items-center text-gray-700 ">
                     <img
                       className="inline-block w-10 h-10 rounded-full"
-                      src="https://overreacted.io/static/profile-pic-c715447ce38098828758e525a1128b87.jpg"
+                      src="https://e7.pngegg.com/pngimages/536/90/png-clipart-black-logo-computer-icons-user-profile-login-avatar-description-heroes-monochrome.png"
                       alt="Dan_Abromov"
                     />
                   </a>
@@ -296,7 +299,7 @@ function Navbar() {
                       className="ml-2 text-sm font-medium text-gray-700 group-"
                       style={{ color: mode === "dark" ? "white" : "" }}
                     >
-                      0
+                     {cartItems.length}
                     </span>
                     <span className="sr-only">items in cart, view bag</span>
                   </Link>

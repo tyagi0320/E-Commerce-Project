@@ -121,7 +121,7 @@ function DashboardTab() {
                     </thead>
                     {product.map((item,index)=>{
                         const {title,price,imageUrl,category,description,date} = item;
-                        return(<tbody className="">
+                        return(<tbody  key={item.id} className="">
                             <tr
                               className="bg-gray-50 border-b  dark:border-gray-700"
                               style={{
